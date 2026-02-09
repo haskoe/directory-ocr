@@ -1,0 +1,13 @@
+session_name: MySession
+windows:
+  - window_name: directory-ocr
+    layout: main-vertical
+    options:
+      main-pane-width: 50%
+    panes:
+      - shell_command:
+          - uv run directory-ocr          # Det store pane til venstre
+      - shell_command:
+          - llama-server -m ~/models/Qwen3VL-8B-Instruct-Q4_K_M.gguf --mmproj ~/models/mmproj-Qwen3VL-8B-Instruct-F16.gguf --ctx-size 8192 --batch-size 256 --ubatch-size 256 --gpu-layers 99 --host 0.0.0.0 --port 8080 #  -fa on
+      - shell_command:
+          - llama-server -m ~/models/gemma-2-2b-it-q8_0.gguf --port 8081 --ctx-size 8192 --gpu-layers 20 --no-mmap -fa on --host 0.0.0.0

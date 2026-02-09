@@ -1,0 +1,47 @@
+# Directory OCR Configuration
+
+# Folder paths (relative to project root)
+folders:
+  incoming: "data/incoming"
+  processed: "data/processed"
+  errors: "data/errors"
+  output: "data/output"
+
+# LLM Server Configuration
+llm:
+  # Vision model for OCR (images)
+  vision_endpoint: "http://localhost:8080"
+  # Text model for data extraction
+  text_endpoint: "http://localhost:8081"
+  # Request timeout in seconds
+  timeout: 120
+
+# File processing settings
+processing:
+  # Supported file extensions
+  image_extensions: [".jpg", ".jpeg", ".png"]
+  pdf_extensions: [".pdf"]
+  
+# Prompt for Step 2: Data Structuring
+# This prompt will be used to extract structured data from the text
+extraction_prompt: |
+  You are a data extraction assistant. Extract the following information from the text and return it as a JSON object:
+  
+  - invoice_number: The invoice or document number
+  - date: The date of the document (format: YYYY-MM-DD)
+  - total_amount: The total amount (as a number)
+  - vendor_name: The name of the vendor or supplier
+  - customer_name: The name of the customer (if present)
+  - description: A brief description of the document content
+  
+  If a field is not found in the text, use null as the value.
+  Return ONLY valid JSON, no other text or explanation.
+  
+  Text to analyze:
+  {text}
+
+# Prompt for OCR (images)
+ocr_prompt: |
+  Please transcribe all visible text in this image. 
+  Maintain the original structure and layout as much as possible.
+  Return only the transcribed text, no other commentary.

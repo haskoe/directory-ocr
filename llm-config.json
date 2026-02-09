@@ -1,0 +1,31 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8000
+  },
+  "models": {
+    "qwen-vision": {
+      "model_path": "/home/heas/models/Qwen3VL-8B-Instruct-Q8_0.gguf",
+      "mmproj_path": "/home/heas/models/mmproj-Qwen3VL-8B-Instruct-F16.gguf",
+      "llama_args": [
+        "--port", "${PORT}",
+        "--ctx-size", "8192",
+        "--batch-size", "256",
+        "--gpu-layers", "99",
+        "--mlock",
+        "-fa"
+      ]
+    },
+    "gemma-chat": {
+      "model_path": "/home/heas/models/gemma-2-2b-it-q8_0.gguf",
+      "llama_args": [
+        "--port", "${PORT}",
+        "--ctx-size", "16384",
+        "--gpu-layers", "99",
+        "--no-mmap",
+        "--mlock",
+        "-fa"
+      ]
+    }
+  }
+}
