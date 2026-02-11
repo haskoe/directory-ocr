@@ -8,6 +8,6 @@ windows:
       - shell_command:
           - uv run directory-ocr          # Det store pane til venstre
       - shell_command:
-          - llama-server -m ~/models/Qwen3VL-8B-Instruct-Q4_K_M.gguf --mmproj ~/models/mmproj-Qwen3VL-8B-Instruct-F16.gguf --ctx-size 8192 --batch-size 256 --ubatch-size 256 --gpu-layers 99 --host 0.0.0.0 --port 8080 #  -fa on
+          - llama-server -m ~/models/Qwen3VL-8B-Instruct-Q4_K_M.gguf --mmproj ~/models/mmproj-Qwen3VL-8B-Instruct-F16.gguf -c 8192 -b 256 -ub 256 -ctv q8_0 --gpu-layers 99 --host 0.0.0.0 --port 8080 -fa on
       - shell_command:
-          - llama-server -m ~/models/Qwen3-4B-Q6_K.gguf -c 16384 -ngl 999 -fa on -ctv q8_0 --host 0.0.0.0 --port 8081
+          - llama-server -m ~/models/Qwen3-4B-Q6_K.gguf --fit -c 16384 -ngl 999 -fa on --host 0.0.0.0 --port 8081 # -ctv q8_0 

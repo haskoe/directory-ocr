@@ -71,8 +71,9 @@ class LLMClient:
                                 "url": data_url
                             }
                         }
-                    ]
-                })
+                    ],
+                    "cache_prompt": False
+                    })
             else:
                 # Text-only request
                 messages.append({
