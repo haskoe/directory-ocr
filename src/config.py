@@ -48,12 +48,23 @@ class Config:
         """Get the OCR prompt."""
         return self.config.get('ocr_prompt', '')
     
+    @property
+    def match_file_path(self) -> Path:
+        """Get the path to the match CSV file."""
+        match_file = self.processing.get('match_file', 'data/matchwith.csv')
+        return Path(match_file).resolve()
+    
+    @property
+    def sleep_time(self) -> int:
+        """Get the sleep time in seconds between processing loops."""
+        return self.processing.get('sleep_time', 2)
+    
     def get_folder_path(self, folder_name: str) -> Path:
         """
         Get absolute path for a folder.
         
         Args:
-            folder_name: Name of the folder (incoming, processed, errors, output)
+            folder_name: Name of the folder (incoming, extracted, processed, matches, errors, output)
             
         Returns:
             Absolute path to the folder

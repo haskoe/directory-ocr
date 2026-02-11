@@ -3,7 +3,9 @@
 # Folder paths (relative to project root)
 folders:
   incoming: "data/incoming"
+  extracted: "data/extracted"
   processed: "data/processed"
+  matches: "data/matches"
   errors: "data/errors"
   output: "data/output"
 
@@ -21,24 +23,38 @@ processing:
   # Supported file extensions
   image_extensions: [".jpg", ".jpeg", ".png"]
   pdf_extensions: [".pdf"]
+  # Path to the CSV match file with reference data
+  match_file: "data/matchwith.csv"
+  # Sleep time in seconds between processing loops
+  sleep_time: 2
   
-# Prompt for Step 2: Data Structuring
-# This prompt will be used to extract structured data from the text
+# Prompt for Step 2: Data Structuring (Match Finding)
+# This prompt will be used to find the best match in CSV reference data
 extraction_prompt: |
-  You are a data extraction assistant. Extract the following information from the text and return it as a JSON object:
+  You are a data matching assistant. Your task is to find the best matching row from the CSV reference data that corresponds to the extracted text.
   
-  - invoice_number: The invoice or document number
-  - date: The date of the document (format: YYYY-MM-DD)
-  - total_amount: The total amount (as a number)
-  - vendor_name: The name of the vendor or supplier
-  - customer_name: The name of the customer (if present)
-  - description: A brief description of the document content
-  
-  If a field is not found in the text, use null as the value.
-  Return ONLY valid JSON, no other text or explanation.
-  
-  Text to analyze:
+  EXTRACTED TEXT:
   {text}
+  
+  CSV REFERENCE DATA (columns: date, description, amount, total):
+  {match_data}
+  
+  Compare the extracted text with all rows in the CSV data and find the best match based on:
+  - Date similarity (look for dates in the extracted text that match the date column)
+  - Description similarity (keywords, content matching the description column)
+  - Amount/total similarity (numbers matching the amount or total columns)
+  
+  Return ONLY a JSON object with these fields:
+  - row_number: The row number from CSV that best matches (integer, 0-based excluding header)
+  - confidence: Your confidence in the match (0.0 to 1.0, where 1.0 is perfect match)
+  - date: Extracted date from the matched row
+  - description: Extracted description from the matched row
+  - amount: Extracted amount from the matched row (as number)
+  - total: Extracted total from the matched row (as number)
+  - reasoning: Brief explanation of why this is the best match
+  
+  If no good match is found (confidence < 0.6), set all fields except confidence and reasoning to null.
+  Return ONLY valid JSON, no other text or explanation.
 
 # Prompt for OCR (images)
 ocr_prompt: |

@@ -42,14 +42,8 @@ uv.lock
 Thumbs.db
 
 # Application specific
-data/incoming/*
-!data/incoming/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
-data/errors/*
-!data/errors/.gitkeep
-data/output/*
-!data/output/.gitkeep
+!.gitkeep
+data/
 
 # Logs
 *.log
